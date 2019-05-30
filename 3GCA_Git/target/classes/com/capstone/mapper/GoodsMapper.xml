@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.capstone.mapper.GoodsMapper">
+	<sql id="search">
+		<if test="type == 'T'.toString()">
+			and title like CONCAT('%', #{keyword}, '%')
+		</if>
+		<if test="type == 'C'.toString()">
+			and content like CONCAT('%', #{keyword}, '%')
+		</if>
+		<if test="type == 'W'.toString()">
+			and writer like CONCAT('%', #{keyword}, '%')
+		</if>
+		<if test="type == 'TC'.toString()">
+			and (title like CONCAT('%', #{keyword}, '%') or content
+			like CONCAT('%', #{keyword}, '%'))
+		</if>
+		<if test="type == 'TW'.toString()">
+			and (title like CONCAT('%', #{keyword}, '%') or writer
+			like CONCAT('%', #{keyword}, '%'))
+		</if>
+		<if test="type == 'TWC'.toString()">
+			and (title like CONCAT('%', #{keyword}, '%') or writer
+			like CONCAT('%', #{keyword}, '%') or content like CONCAT('%',
+			#{keyword}, '%'))
+		</if>
+	</sql>
+
+	<select id="getList" resultType="com.capstone.domain.GoodsVO">
+		<![CDATA[select * from goods where bno > 0 and rownum <= 100]]>
+	</select>
+
+	<insert id="insert">
+		insert into
+		goods(title,sharedate,goods,sharelocation,content,writer,regdate,updatedate,lat,lng) 
+		values(#{title},#{sharedate},#{goods},#{sharelocation},#{content}, #{writer}, now(), now(),#{lat},#{lng})
+	</insert>
+
+	<insert id="insertSelectKey">
+
+		<selectKey keyProperty="bno" order="BEFORE" resultType="int">
+			select bno from goods
+		</selectKey>
+
+		insert into
+		goods(title,sharedate,goods,sharelocation,content,writer,regdate,updatedate,lat,lng) 
+		values(#{title},#{sharedate},#{goods},#{sharelocation},#{content}, #{writer}, now(), now(),#{lat},#{lng})
+	</insert>
+
+	<select id="read" resultType="com.capstone.domain.GoodsVO">
+		select * from goods where bno = #{bno}
+	</select>
+
+	<delete id="delete">
+		delete from goods where bno = #{bno}
+	</delete>
+
+	<update id="update">
+		update goods set 
+		title = #{title},
+		sharedate = #{sharedate},
+		goods = #{goods},
+		sharelocation = #{sharelocation},
+		content = #{content},
+		updateDate = now(),
+		lat = #{lat},
+		lng = #{lng} 
+		where bno = #{bno}
+	</update>
+
+
+	<select id="getListWithPaging"
+		resultType="com.capstone.domain.GoodsVO">
+  		<![CDATA[
+			select * from goods 
+			where bno > 0 
+		]]>
+		<include refid="search"></include>
+		<![CDATA[
+   			order by bno desc, regdate desc 
+   			limit #{pageStart}, #{perPageNum} 
+		]]>
+	</select>
+
+	<select id="getTotalCount" resultType="int">
+		<![CDATA[
+			select count(*) from goods 
+			where bno > 0 
+		]]>
+		<include refid="search"></include>
+
+	</select>
+</mapper>

@@ -1,0 +1,197 @@
+@import url('https://fonts.googleapis.com/css?family=Do+Hyeon');
+
+*{font-family :"Do Hyeon";}
+
+.carousel-inner > .item > img {
+      top: 0;
+      left: 0;
+      min-width: 100%;
+      min-height: 50px;
+}
+nav ul {
+    position : relative;
+    margin : 0;
+    padding : 0;
+    list-style : none;
+    }
+nav ul li {
+   position : relative;
+   float : left;
+}
+.nav navbar-nav{float:left}
+ul{list-style:none;margin:0px;padding:0px;}
+.sub > li{float:left}
+.sub li{display:none;}
+.sub li:hover > ul{display:block;}
+
+.sss li ul {
+display:none;  /* 평상시에는 서브메뉴가 안보이게 하기 */
+height:auto;
+padding:0px;
+margin:0px;
+border:0px;
+position:absolute;
+width:200px;
+z-index:200;
+}
+
+.sss li:hover ul {
+display:block;   /* 마우스 커서 올리면 서브메뉴 보이게 하기 */
+}
+
+  #custom-search-form {
+        margin:0;
+        margin-top: 5px;
+        padding: 0;
+    }
+ 
+    #custom-search-form .search-query {
+        padding-right: 3px;
+        padding-right: 4px \9;
+        padding-left: 3px;
+        padding-left: 4px \9;
+        /* IE7-8 doesn't have border-radius, so don't indent the padding */
+ 
+        margin-bottom: 0;
+        -webkit-border-radius: 3px;
+        -moz-border-radius: 3px;
+        border-radius: 3px;
+    }
+ 
+    #custom-search-form button {
+        border: 0;
+        background: none;
+        /** belows styles are working good */
+        padding: 2px 5px;
+        margin-top: 2px;
+        position: relative;
+        left: -28px;
+        /* IE7-8 doesn't have border-radius, so don't indent the padding */
+        margin-bottom: 0;
+        -webkit-border-radius: 3px;
+        -moz-border-radius: 3px;
+        border-radius: 3px;
+    }
+ 
+    .search-query:focus + button {
+        z-index: 3;   
+    }
+    html {
+  background: #1f80aa;
+}
+
+
+fieldset {
+  position: relative;
+  display: inline-block;
+  padding: 0 0 0 40px;
+  background: #fff;
+  border: none;
+  border-radius: 5px;
+}
+
+input,
+button {
+  position: relative;
+  width: 200px;
+  height: 50px;
+  padding: 0;
+  display: inline-block;
+  float: left;
+}
+
+input {
+  color: #666;
+  z-index: 2;
+  border: 0 none;
+}
+input:focus {
+  outline: 0 none;
+}
+input:focus + button {
+  -webkit-transform: translate(0, 0);
+      -ms-transform: translate(0, 0);
+          transform: translate(0, 0);
+  -webkit-transition-duration: 0.3s;
+          transition-duration: 0.3s;
+}
+input:focus + button .fa {
+  -webkit-transform: translate(0px, 0);
+      -ms-transform: translate(0px, 0);
+          transform: translate(0px, 0);
+  -webkit-transition-duration: 0.3s;
+          transition-duration: 0.3s;
+  color: #fff;
+}
+
+button {
+  z-index: 1;
+  width: 50px;
+  border: 0 none;
+  background: #ceb980;
+  cursor: pointer;
+  border-radius: 0 5px 5px 0;  
+  -webkit-transform: translate(-50px, 0);
+      -ms-transform: translate(-50px, 0);
+          transform: translate(-50px, 0);
+  -webkit-transition-duration: 0.3s;
+          transition-duration: 0.3s;
+}
+
+.fa-search {
+  font-size: 1.4rem;
+  color: #29abe2;
+  z-index: 3;
+  top: 25%;
+  -webkit-transform: translate(-190px, 0);
+      -ms-transform: translate(-190px, 0);
+          transform: translate(-190px, 0);
+  -webkit-transition-duration: 0.3s;
+          transition-duration: 0.3s;
+  -webkit-transition: all 0.1s ease-in-out;
+          transition: all 0.1s ease-in-out;
+}
+
+.gesi{
+	width:1000px;
+	height:850px;
+	border:solid red 2px;
+	display: inline-block;
+	float: left;
+	margin:2px;
+}
+
+.gongzi{
+	width:450px;
+	height:400px;
+	border:solid black 2px;
+	display: inline-block;
+	float: left;
+	margin:2px;
+}
+
+.cargesi{
+	width:450px;
+	height:400px;
+	border:solid black 2px;
+	display: inline-block;
+	float: left;
+	margin:2px;
+}
+.qagesi{
+	width:450px;
+	height:400px;
+	border:solid black 2px;
+	display: inline-block;
+	float: left;
+	margin:2px;
+}
+
+.goodgesi{
+	width:450px;
+	height:400px;
+	border:solid black 2px;
+	display: inline-block;
+	float: left;
+	margin:2px;	
+}

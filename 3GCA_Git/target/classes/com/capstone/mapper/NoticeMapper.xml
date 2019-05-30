@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.capstone.mapper.NoticeMapper">
+
+	<sql id="search">
+		<if test="type == 'T'.toString()">
+			and title like CONCAT('%', #{keyword}, '%')
+		</if>
+		<if test="type == 'C'.toString()">
+			and content like CONCAT('%', #{keyword}, '%')
+		</if>
+		<if test="type == 'W'.toString()">
+			and writer like CONCAT('%', #{keyword}, '%')
+		</if>
+		<if test="type == 'TC'.toString()">
+			and (title like CONCAT('%', #{keyword}, '%') or content like CONCAT('%', #{keyword}, '%'))
+		</if>
+		<if test="type == 'TW'.toString()">
+			and (title like CONCAT('%', #{keyword}, '%') or writer like CONCAT('%', #{keyword}, '%'))
+		</if>
+		<if test="type == 'TWC'.toString()">
+			and (title like CONCAT('%', #{keyword}, '%') or writer like CONCAT('%', #{keyword}, '%') or content like CONCAT('%', #{keyword}, '%'))
+		</if>
+	</sql>
+
+	<select id="getList" resultType="com.capstone.domain.NoticeVO">
+		<![CDATA[select * from notice where bno > 0 and rownum <= 100]]>
+	</select>
+
+	<insert id="insert">
+		insert into
+		notice(title,content,writer,regdate,updatedate) values (#{title},
+		#{content}, #{writer}, now(), now())
+	</insert>
+
+	<insert id="insertSelectKey">
+
+		<selectKey keyProperty="bno" order="BEFORE"
+			resultType="int">
+			select bno from notice
+		</selectKey>
+
+		insert into notice (title,content,writer,regdate,updatedate) values
+		(#{title}, #{content}, #{writer}, now(), now())
+	</insert>
+
+	<select id="read" resultType="com.capstone.domain.NoticeVO">
+		select * from notice where bno =
+		#{bno}
+	</select>
+
+	<delete id="delete">
+		delete from notice where bno = #{bno}
+	</delete>
+
+	<update id="update">
+		update notice set title= #{title},
+		content=#{content}, writer = #{writer}, updateDate = now() where bno
+		= #{bno}
+	</update>
+
+
+	<select id="getListWithPaging" resultType="com.capstone.domain.NoticeVO">
+  		<![CDATA[
+			select * from notice 
+			where bno > 0 
+		]]>
+			<include refid="search"></include>
+		<![CDATA[
+   			order by bno desc, regdate desc 
+   			limit #{pageStart}, #{perPageNum} 
+		]]>
+	</select>
+
+	<select id="getTotalCount" resultType="int">
+		<![CDATA[
+			select count(*) from notice 
+			where bno > 0 
+		]]>
+		<include refid="search"></include>
+		
+	</select>
+</mapper>

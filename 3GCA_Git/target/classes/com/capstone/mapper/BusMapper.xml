@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.capstone.mapper.BusMapper">
+	<sql id="search">
+		<if test="type == 'T'.toString()">
+			and title like CONCAT('%', #{keyword}, '%')
+		</if>
+		<if test="type == 'C'.toString()">
+			and content like CONCAT('%', #{keyword}, '%')
+		</if>
+		<if test="type == 'W'.toString()">
+			and writer like CONCAT('%', #{keyword}, '%')
+		</if>
+		<if test="type == 'TC'.toString()">
+			and (title like CONCAT('%', #{keyword}, '%') or content
+			like CONCAT('%', #{keyword}, '%'))
+		</if>
+		<if test="type == 'TW'.toString()">
+			and (title like CONCAT('%', #{keyword}, '%') or writer
+			like CONCAT('%', #{keyword}, '%'))
+		</if>
+		<if test="type == 'TWC'.toString()">
+			and (title like CONCAT('%', #{keyword}, '%') or writer
+			like CONCAT('%', #{keyword}, '%') or content like CONCAT('%',
+			#{keyword}, '%'))
+		</if>
+	</sql>
+
+	<select id="getList" resultType="com.capstone.domain.BusVO">
+		<![CDATA[select * from bus where bno > 0 and rownum <= 100]]>
+	</select>
+
+	<insert id="insert">
+		insert into
+		bus(title, content, writer, departarea, maxrecruitnum, departdate, startrecruit,
+		deadline, departlocation, depart_lat, depart_lng, arrivelocation,
+		arrive_lat, arrive_lng, regdate, updatedate)
+		values(#{title},#{content},
+		#{writer},#{departarea},#{maxrecruitnum},#{departdate},#{startrecruit},#{deadline},#{departlocation},#{depart_lat},#{depart_lng},
+		#{arrivelocation},#{arrive_lat},#{arrive_lng},now(), now())
+	</insert>
+
+	<insert id="insertSelectKey">
+
+		<selectKey keyProperty="bno" order="BEFORE" resultType="int">
+			select bno from bus
+		</selectKey>
+
+		insert into
+		bus(title, content, writer, departarea, maxrecruitnum, departdate, startrecruit,
+		deadline, departlocation, depart_lat, depart_lng, arrivelocation,
+		arrive_lat, arrive_lng, regdate, updatedate)
+		values(#{title},#{content},
+		#{writer},#{departarea},#{maxrecruitnum},#{departdate},#{startrecruit},#{deadline},#{departlocation},#{depart_lat},#{depart_lng},
+		#{arrivelocation},#{arrive_lat},#{arrive_lng},now(), now())
+
+	</insert>
+
+	<select id="read" resultType="com.capstone.domain.BusVO">
+		select * from bus where bno =
+		#{bno}
+	</select>
+
+	<delete id="delete">
+		delete from bus where bno = #{bno}
+	</delete>
+
+	<update id="apply">
+		update bus set
+		recruitnum = #{recruitnum} + 1
+		where bno = #{bno}
+	</update>
+
+	<update id="update">
+		update bus set
+		title = #{title},
+		content = #{content},
+		departarea = #{departarea},
+		maxrecruitnum = #{maxrecruitnum},
+		departdate = #{departdate},
+		startrecruit = #{startrecruit},
+		deadline = #{deadline},
+		departlocation =
+		#{departlocation},
+		depart_lat = #{depart_lat},
+		depart_lng =
+		#{depart_lng},
+		arrivelocation = #{arrivelocation},
+		arrive_lat =
+		#{arrive_lat},
+		arrive_lng = #{arrive_lng},
+		updatedate = now()
+		where bno =
+		#{bno}
+	</update>
+
+
+	<select id="getListWithPaging"
+		resultType="com.capstone.domain.BusVO">
+  		<![CDATA[
+			select * from bus 
+			where bno > 0 
+		]]>
+		<include refid="search"></include>
+		<![CDATA[
+   			order by bno desc, regdate desc 
+   			limit #{pageStart}, #{perPageNum} 
+		]]>
+	</select>
+
+	<select id="getTotalCount" resultType="int">
+		<![CDATA[
+			select count(*) from bus 
+			where bno > 0 
+		]]>
+		<include refid="search"></include>
+
+	</select>
+
+	<insert id="applyListRegister">
+		insert into applylist(bno, id)
+		values(#{bno}, #{id})
+	</insert>
+</mapper>
